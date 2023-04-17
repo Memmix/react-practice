@@ -1,0 +1,20 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.app {
+  text-align: center;
+  margin-top: 100px;
+}
+
+button {
+  font-size: 60px;
+  padding: 15px 30px;
+  transition: 1s;
+}
+
+.red {
+  border-radius: 40px;
+  background: red;
+}
