@@ -4,10 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import logo from './logo.svg'
+import images from './images.jpg'
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <App initialText="testtext" initialTextTwo="testtfadsfext" image={logo} />
+    <App initialText="1234567890" initialTextTwo="testtedfasdfadsfxt" image={images} />
   </React.StrictMode>
 );
 
