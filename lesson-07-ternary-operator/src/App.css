@@ -1,0 +1,21 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.App {
+  text-align: center;
+}
+
+ul {
+  height: 800px;
+  width: 600px;
+  background: black;
+  padding: 15px;
+}

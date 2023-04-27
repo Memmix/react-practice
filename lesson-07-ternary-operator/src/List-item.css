@@ -1,0 +1,18 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+li {
+  list-style: none;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid black;
+  background: rgb(34, 204, 147);
+  text-align: left;
+}
+
+li:not(:last-child) {
+  margin-bottom: 10px;
+}
