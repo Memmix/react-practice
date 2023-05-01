@@ -1,0 +1,26 @@
+.block {
+  width: 175px;
+  height: 175px;
+  background: rgb(255, 255, 255);
+  margin: 10px;
+}
+
+.red {
+  background: red;
+}
+
+.green {
+  background: green;
+}
+
+.yellow {
+  background: yellow;
+}
+
+.blue {
+  background: blue;
+}
+
+.orange {
+  background: orange;
+}
