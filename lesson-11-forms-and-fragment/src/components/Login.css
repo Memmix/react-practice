@@ -1,0 +1,47 @@
+form.uncontrolled {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  background: black;
+  padding: 30px;
+  border-radius: 10px;
+  background: rgb(12, 68, 12);
+  margin-bottom: 50px;
+}
+
+form.controlled {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  background: black;
+  padding: 30px;
+  border-radius: 10px;
+  background: rgb(74, 11, 116);
+}
+
+h2 {
+  color: #fff;
+  font-size: 35px;
+  margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 7px;
+  font-size: 20px;
+  outline: none;
+  border: none;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+button {
+  padding: 7px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 5px;
+  border: #fff;
+  background: rgb(216, 19, 19);
+  color: #fff;
+  cursor: pointer;
+}
