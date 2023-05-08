@@ -20,7 +20,7 @@ function App() {
         <h2>Блок #3</h2>
         <span>Lorem ipsum dolor sit amet.</span>
       </Block>
-    </div>
+    </div >
   )
 }
 
