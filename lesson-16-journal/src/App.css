@@ -1,0 +1,19 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  width: 1000px;
+  /* background: orange; */
+  margin: 0 auto;
+}
+
+.content {
+  display: flex;
+}
+
+.menu {
+  margin-right: 20px;
+}
+
+.body {
+  width: 100%;
+}

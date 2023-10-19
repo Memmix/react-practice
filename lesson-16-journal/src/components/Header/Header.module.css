@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  gap: 5px;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: bold;
+  color: #384661;
+}
+
+.header h2 {
+  font-size: 33px;
+  font-weight: 800;
+  color: #384661;
+  text-transform: uppercase;
+}
