@@ -2,6 +2,7 @@ import React, { useEffect, useReducer, useRef } from "react"
 import { BsCalendarDate, BsJournalText, BsBookmark } from "react-icons/bs"
 import { TbMoodCog } from "react-icons/tb"
 import cn from "classnames"
+
 import styles from "./JournalForm.module.css"
 import { INITIAL_STATE, formReducer } from "./JournalForm.state"
 

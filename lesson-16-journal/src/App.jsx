@@ -1,30 +1,14 @@
-import { useState, useEffect } from "react"
 import LeftPanel from "./layouts/Menu/LeftPanel"
 import Body from "./layouts/Body/Body"
 import Header from "./components/Header/Header"
 import JournalAddButton from "./components/JournalAddButton/JournalAddButton"
 import MenuList from "./components/MenuList/MenuList"
 import JournalForm from "./components/JournalForm/JournalForm"
-
+import { useLocalStorage } from "./hooks/useLocalStorage.hook"
 import "./App.css"
 
 function App() {
-  const [arrItems, setArrItems] = useState([])
-
-  // хуки всегда на верхнем уровне
-  // хуки нельзя запихнуть в выражения, например в if
-
-  // получение данных из localStorage, зависимость: отсутствует
-  useEffect(() => {
-    setArrItems(JSON.parse(localStorage.getItem("data")))
-  }, [])
-
-  // отправка данных в localStorage, зависимость: items
-  useEffect(() => {
-    if (arrItems.length) {
-      localStorage.setItem("data", JSON.stringify(arrItems))
-    }
-  }, [arrItems])
+  const [arrItems, setArrItems] = useLocalStorage("data")
 
   const addItem = (item) => {
     setArrItems([...arrItems, item])
