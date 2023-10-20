@@ -1,5 +1,4 @@
-import { useState } from "react"
-import "./App.css"
+import { useState, useEffect } from "react"
 import LeftPanel from "./layouts/Menu/LeftPanel"
 import Body from "./layouts/Body/Body"
 import Header from "./components/Header/Header"
@@ -7,27 +6,25 @@ import JournalAddButton from "./components/JournalAddButton/JournalAddButton"
 import MenuList from "./components/MenuList/MenuList"
 import JournalForm from "./components/JournalForm/JournalForm"
 
+import "./App.css"
+
 function App() {
-  const [arrItems, setArrItems] = useState([
-    {
-      title: "Заголовок",
-      date: "21.01.2001",
-      tags: [],
-      description: "lorem lorem lorem"
-    },
-    {
-      title: "Заголовок",
-      date: "21.01.2001",
-      tags: [],
-      description: "lorem lorem lorem"
-    },
-    {
-      title: "Заголовок",
-      date: "21.01.2001",
-      tags: [],
-      description: "lorem lorem lorem"
+  const [arrItems, setArrItems] = useState([])
+
+  // хуки всегда на верхнем уровне
+  // хуки нельзя запихнуть в выражения, например в if
+
+  // получение данных из localStorage, зависимость: отсутствует
+  useEffect(() => {
+    setArrItems(JSON.parse(localStorage.getItem("data")))
+  }, [])
+
+  // отправка данных в localStorage, зависимость: items
+  useEffect(() => {
+    if (arrItems.length) {
+      localStorage.setItem("data", JSON.stringify(arrItems))
     }
-  ])
+  }, [arrItems])
 
   const addItem = (item) => {
     setArrItems([...arrItems, item])

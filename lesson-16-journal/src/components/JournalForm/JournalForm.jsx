@@ -1,52 +1,55 @@
-import React from "react"
-import { useState } from "react"
+import React, { useEffect, useReducer, useRef } from "react"
 import { BsCalendarDate, BsJournalText, BsBookmark } from "react-icons/bs"
 import { TbMoodCog } from "react-icons/tb"
+import cn from "classnames"
 import styles from "./JournalForm.module.css"
+import { INITIAL_STATE, formReducer } from "./JournalForm.state"
 
 const JournalForm = ({ addItem }) => {
-  const [formValidState, setFormValidState] = useState({
-    title: true,
-    date: true,
-    mood: true,
-    description: true
-  })
+  // использование useReducer
+  const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE)
+  const { isValid, values, isFormReadyToSubmit } = formState // деструктуризация состояния
+  // использование useRef
+  const titleRef = useRef() // в элементе атрибут ref={titleRef}
+  const dateRef = useRef()
+  const moodRef = useRef()
+  const descriptionRef = useRef()
+
+  // Функция для фокуса по невалидным элементам
+  const focusError = (isValid) => {
+    if (!isValid.title) titleRef.current.focus()
+    else if (!isValid.date) dateRef.current.focus()
+    else if (!isValid.mood) moodRef.current.focus()
+    else if (!isValid.description) descriptionRef.current.focus()
+  }
+
+  useEffect(() => {
+    let timer
+    if (!isValid.title || !isValid.date || !isValid.mood || !isValid.description) {
+      focusError(isValid)
+      timer = setTimeout(() => dispatchForm({ type: "RESET_VALIDITY" }), 1500)
+    }
+    return () => clearTimeout(timer)
+  }, [isValid])
+
+  //отслеживаем isFormReadyToSubmit, если true отправляем данные
+  useEffect(() => {
+    if (isFormReadyToSubmit) {
+      addItem(values)
+      dispatchForm({ type: "CLEAR" })
+    }
+  }, [isFormReadyToSubmit])
+
+  const changeValue = (e) => {
+    // e.target.name - имя поля
+    // e.target.value - значение поля
+    // [] - для получения computed key в объекте
+    dispatchForm({ type: "SET_VALUE", payload: { [e.target.name]: e.target.value } })
+  }
 
   const addJournalItem = (e) => {
-    let isFormValid = true
     e.preventDefault()
-    const formData = new FormData(e.target)
-    const formProps = Object.fromEntries(formData)
-
-    // к undefined мы не можем применить trim(), поэтому используем запись: formProps.title?
-    if (!formProps.title?.trim().length) {
-      setFormValidState((state) => ({ ...state, title: false }))
-      isFormValid = false
-    } else {
-      setFormValidState((state) => ({ ...state, title: true }))
-    }
-    if (!formProps.date) {
-      setFormValidState((state) => ({ ...state, date: false }))
-      isFormValid = false
-    } else {
-      setFormValidState((state) => ({ ...state, date: true }))
-    }
-    if (!formProps.mood?.trim().length) {
-      setFormValidState((state) => ({ ...state, mood: false }))
-      isFormValid = false
-    } else {
-      setFormValidState((state) => ({ ...state, mood: true }))
-    }
-    if (!formProps.description?.trim().length) {
-      setFormValidState((state) => ({ ...state, description: false }))
-      isFormValid = false
-    } else {
-      setFormValidState((state) => ({ ...state, description: true }))
-    }
-    if (!isFormValid) {
-      return
-    }
-    addItem(formProps)
+    dispatchForm({ type: "SUBMIT" })
   }
 
   return (
@@ -57,13 +60,18 @@ const JournalForm = ({ addItem }) => {
           <span className={styles.labelText}>Название:</span>
         </label>
         <input
-          style={{
-            background: formValidState.title ? undefined : "rgb(186, 51, 28)"
-          }}
+          // для cn:
+          // выражения заключаются в {}
+          // несколько классов указываются через запятую:
+          // className={cn(styles["test"], { [styles["invalid"]]: !formValidState.title })}
+          className={cn({ [styles["invalid"]]: !isValid.title })}
           type="text"
           id="title"
           name="title"
           placeholder="название воспоминания..."
+          onChange={changeValue}
+          ref={titleRef}
+          value={values.title}
         />
       </div>
       <div className={styles.dateContainer}>
@@ -72,12 +80,13 @@ const JournalForm = ({ addItem }) => {
           <span className={styles.labelText}>Дата:</span>
         </label>
         <input
-          style={{
-            background: formValidState.date ? undefined : "rgb(186, 51, 28)"
-          }}
+          className={cn({ [styles["invalid"]]: !isValid.date })}
           type="date"
           id="date"
           name="date"
+          onChange={changeValue}
+          ref={dateRef}
+          value={values.date}
         />
       </div>
       <div className={styles.moodContainer}>
@@ -86,12 +95,13 @@ const JournalForm = ({ addItem }) => {
           <span className={styles.labelText}>Настроение:</span>
         </label>
         <input
-          style={{
-            background: formValidState.mood ? undefined : "rgb(186, 51, 28)"
-          }}
+          className={cn({ [styles["invalid"]]: !isValid.mood })}
           type="text"
           id="mood"
           name="mood"
+          onChange={changeValue}
+          ref={moodRef}
+          value={values.mood}
         />
       </div>
       <div className={styles.description}>
@@ -100,12 +110,13 @@ const JournalForm = ({ addItem }) => {
           <span className={styles.labelText}>Описание:</span>
         </label>
         <textarea
-          style={{
-            background: formValidState.description ? undefined : "rgb(186, 51, 28)"
-          }}
+          className={cn({ [styles["invalid"]]: !isValid.description })}
           name="description"
           id="description"
           placeholder="расскажите о своём дне..."
+          onChange={changeValue}
+          ref={descriptionRef}
+          value={values.description}
         ></textarea>
       </div>
 
