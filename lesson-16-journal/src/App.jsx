@@ -1,3 +1,5 @@
+import { useContext } from 'react'
+import cn from 'classnames'
 import LeftPanel from './layouts/Menu/LeftPanel'
 import Body from './layouts/Body/Body'
 import Header from './components/Header/Header'
@@ -5,21 +7,23 @@ import JournalAddButton from './components/JournalAddButton/JournalAddButton'
 import MenuList from './components/MenuList/MenuList'
 import JournalForm from './components/JournalForm/JournalForm'
 import { useLocalStorage } from './hooks/useLocalStorage.hook'
-import { ThemeContextProvider } from './context/theme.context'
+import { ThemeContext} from './context/theme.context'
 import './App.css'
+
 
 
 function App() {
 	const [arrItems, setArrItems] = useLocalStorage('data')
+	const {themeId} = useContext(ThemeContext)
 
 	const addItem = (item) => {
 		setArrItems([...arrItems, item])
 	}
 
 	return (
-		// указываем где будет виден наш контекст
-		<ThemeContextProvider>
-			<div className="app">
+	// указываем где будет виден наш контекст
+		<div className={cn('app', {'darkTheme' : themeId === '2'}, {'whiteTheme' : themeId === '1'})}>
+			<div className="appContainer">
 				<div className="header">
 					<Header />
 				</div>
@@ -33,7 +37,8 @@ function App() {
 					</Body>
 				</div>
 			</div>
-		</ThemeContextProvider>
+		</div>
+
 	)
 }
 

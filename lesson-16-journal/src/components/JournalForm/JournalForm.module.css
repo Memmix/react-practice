@@ -22,7 +22,6 @@ label {
   align-items: center;
   gap: 5px;
   font-size: 18px;
-  color: #384661;
   margin-right: 10px;
 }
 
@@ -30,12 +29,27 @@ label > span {
   font-weight: 600;
 }
 
+.JournalForm.white label{
+  color: #384661;
+}
+
+.JournalForm.dark label{
+  color: #C2AA92;
+}
+
 .titleContainer > input {
   width: 100%;
   background: none;
   outline: none;
   border: none;
+}
+
+.JournalForm.white .titleContainer > input{
   color: #384661;
+}
+
+.JournalForm.dark .titleContainer > input{
+  color: #C2AA92;
 }
 
 .dateContainer {
@@ -60,8 +74,17 @@ label > span {
   border-radius: 5px;
 }
 
+.JournalForm.white > div > input > input{
+  color: #384661;
+}
+
+.JournalForm.dark > div > input > input{
+  color: #C2AA92;
+}
+
 input[type="date"] {
   position: relative;
+  color: #fff
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -101,8 +124,15 @@ input[type="date"]::-webkit-clear-button {
   margin-bottom: 10px;
   padding: 5px 10px;
   font-size: 18px;
-  color: #384661;
   outline: none;
+}
+
+.JournalForm.dark .description > textarea{
+  color: #C2AA92
+}
+
+.JournalForm.white .description > textarea{
+  color: #384661;
 }
 
 .JournalForm > button {
@@ -114,6 +144,16 @@ input[type="date"]::-webkit-clear-button {
   background: #384661;
   color: #fff;
   cursor: pointer;
+}
+
+.JournalForm.white > button{
+  background: #384661;
+}
+
+.JournalForm.dark > button{
+  background: #C2AA92;
+  /* color: #384661; */
+  font-weight: 600;
 }
 
 .invalid {

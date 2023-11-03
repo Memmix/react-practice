@@ -1,10 +1,20 @@
+import cn from 'classnames'
+import { useContext } from 'react'
 import { BiMessageSquareDetail } from 'react-icons/bi'
+import { ThemeContext } from '../../context/theme.context'
+
 import styles from './JournalItem.module.css'
 
 const JournalItem = ({ item }) => {
-	console.log(item)
+
+	const {themeId} = useContext(ThemeContext)
+
 	return (
-		<div className={styles.journalItem}>
+		<div className = 
+			{cn(styles.journalItem, 
+				{ [ styles ['white'] ] : themeId==='1' }, 
+				{ [ styles ['dark'] ] : themeId==='2' })
+			}>
 			<div className={styles.header}>
 				<BiMessageSquareDetail className={styles.logo} />
 				<h3>{item.title}</h3>

@@ -1,11 +1,19 @@
 .journalItem {
-  background: #384661;
   border-radius: 5px;
   border: 0.5px solid #fff;
-  color: #fff;
   padding: 10px 20px;
   margin-top: 10px;
   width: 350px;
+}
+
+.journalItem.white{
+  background: #384661;
+  color: #fff;
+}
+
+.journalItem.dark{
+  background: #C2AA92;
+  color: #384661;
 }
 
 .header {
@@ -20,6 +28,7 @@
 .header > h3 {
   font-weight: 400;
   line-height: 14px;
+  font-weight: 600;
 }
 
 .date {

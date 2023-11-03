@@ -1,8 +1,9 @@
-import { useContext, useEffect, useReducer, useRef } from 'react'
+import {useEffect, useReducer, useRef } from 'react'
 import { BsCalendarDate, BsJournalText, BsBookmark } from 'react-icons/bs'
 import { TbMoodCog } from 'react-icons/tb'
-import cn from 'classnames'
+import { useContext } from 'react'
 import { ThemeContext } from '../../context/theme.context'
+import cn from 'classnames'
 
 import styles from './JournalForm.module.css'
 import { INITIAL_STATE, formReducer } from './JournalForm.state'
@@ -16,7 +17,6 @@ const JournalForm = ({ addItem }) => {
 	const dateRef = useRef()
 	const moodRef = useRef()
 	const descriptionRef = useRef()
-	// использование useContext
 	const {themeId} = useContext(ThemeContext)
 
 	// Функция для фокуса по невалидным элементам
@@ -60,8 +60,13 @@ const JournalForm = ({ addItem }) => {
 
 	return (
 		
-		<form className={styles.JournalForm} onSubmit={addJournalItem}>
-			{themeId}
+		<form 
+			className = 
+				{cn(styles.JournalForm, 
+					{ [ styles ['white'] ] : themeId === '1' }, 
+					{ [ styles ['dark'] ] : themeId === '2' })
+				} 
+			onSubmit = {addJournalItem}>
 			<div className={styles.titleContainer}>
 				<label htmlFor="title">
 					<BsBookmark className={styles.labelLogo} />
