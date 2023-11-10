@@ -1,7 +1,7 @@
 import styles from './MenuList.module.css'
 import JournalItem from '../JournalItem/JournalItem'
 
-const MenuList = ({ items, selectItem }) => {
+const MenuList = ({ items, selectItem, deleteItem }) => {
 	return (
 		<>
 			{items.length === 0 ? (
@@ -13,9 +13,9 @@ const MenuList = ({ items, selectItem }) => {
 						key={item.id}
 						// Мы не можем повесить события на пользовательские компоненты, поэтому прокидывает дальше и вешаем внутри на div
 						onClick={() => {
-							console.log('test')
 							selectItem(item)
 						}}
+						deleteItem={deleteItem}
 					/>
 				))
 			)}

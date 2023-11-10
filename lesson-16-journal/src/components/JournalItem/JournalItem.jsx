@@ -1,11 +1,12 @@
 import cn from 'classnames'
 import { useContext } from 'react'
 import { BiMessageSquareDetail } from 'react-icons/bi'
+import { RiDeleteBinLine } from 'react-icons/ri'
 import { ThemeContext } from '../../context/theme.context'
 
 import styles from './JournalItem.module.css'
 
-const JournalItem = ({ item, onClick }) => {
+const JournalItem = ({ item, onClick, deleteItem }) => {
 	const { themeId } = useContext(ThemeContext)
 
 	return (
@@ -24,6 +25,9 @@ const JournalItem = ({ item, onClick }) => {
 			<div className={styles.content}>
 				<span className={styles.date}>{item.date}</span>
 				<span className={styles.text}>{item.description}</span>
+			</div>
+			<div className={styles.delete} onClick={() => deleteItem(item.id)}>
+				<RiDeleteBinLine className={styles.deleteIcon} />
 			</div>
 		</div>
 	)

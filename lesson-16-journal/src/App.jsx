@@ -33,6 +33,12 @@ function App() {
 		}
 	}
 
+	const deleteItem = (itemId) => {
+		console.log(itemId)
+		setArrItems()
+		setArrItems([...arrItems.filter((el) => el.id !== itemId)])
+	}
+
 	const selectItem = (item) => {
 		setSelectedItem(item)
 	}
@@ -46,7 +52,12 @@ function App() {
 				<div className='content'>
 					<LeftPanel>
 						<JournalAddButton />
-						<MenuList className='menuList' items={arrItems} selectItem={selectItem} />
+						<MenuList
+							className='menuList'
+							items={arrItems}
+							selectItem={selectItem}
+							deleteItem={deleteItem}
+						/>
 					</LeftPanel>
 					<Body>
 						<JournalForm addItem={addItem} data={selectedItem} />
