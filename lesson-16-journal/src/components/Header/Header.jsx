@@ -16,7 +16,7 @@ const Header = () => {
 			}>
 			<IoIosJournal className={styles.logo} />
 			<h2>My Journal</h2>
-			<SelectTheme />
+			<SelectTheme/>
 		</div>
 	)
 }

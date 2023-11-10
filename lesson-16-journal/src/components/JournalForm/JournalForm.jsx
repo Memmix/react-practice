@@ -1,14 +1,13 @@
-import {useEffect, useReducer, useRef } from 'react'
+import { useEffect, useReducer, useRef, useContext } from 'react'
 import { BsCalendarDate, BsJournalText, BsBookmark } from 'react-icons/bs'
 import { TbMoodCog } from 'react-icons/tb'
-import { useContext } from 'react'
 import { ThemeContext } from '../../context/theme.context'
 import cn from 'classnames'
 
 import styles from './JournalForm.module.css'
 import { INITIAL_STATE, formReducer } from './JournalForm.state'
 
-const JournalForm = ({ addItem }) => {
+const JournalForm = ({ addItem, data }) => {
 	// использование useReducer
 	const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE)
 	const { isValid, values, isFormReadyToSubmit } = formState // деструктуризация состояния
@@ -17,7 +16,8 @@ const JournalForm = ({ addItem }) => {
 	const dateRef = useRef()
 	const moodRef = useRef()
 	const descriptionRef = useRef()
-	const {themeId} = useContext(ThemeContext)
+	// использование useContext
+	const { themeId } = useContext(ThemeContext)
 
 	// Функция для фокуса по невалидным элементам
 	const focusError = (isValid) => {
@@ -26,6 +26,11 @@ const JournalForm = ({ addItem }) => {
 		else if (!isValid.mood) moodRef.current.focus()
 		else if (!isValid.description) descriptionRef.current.focus()
 	}
+
+	// Выполнять dispatchForm с данными item при изменении data (если какой то journalItem был выбран)
+	useEffect(() => {
+		dispatchForm({ type: 'SET_VALUE', payload: { ...data } })
+	}, [data])
 
 	useEffect(() => {
 		let timer
@@ -36,7 +41,7 @@ const JournalForm = ({ addItem }) => {
 		return () => clearTimeout(timer)
 	}, [isValid])
 
-	//отслеживаем isFormReadyToSubmit, если true отправляем данные 
+	//отслеживаем isFormReadyToSubmit, если true отправляем данные
 	useEffect(() => {
 		if (isFormReadyToSubmit) {
 			addItem(values)
@@ -59,16 +64,16 @@ const JournalForm = ({ addItem }) => {
 	}
 
 	return (
-		
-		<form 
-			className = 
-				{cn(styles.JournalForm, 
-					{ [ styles ['white'] ] : themeId === '1' }, 
-					{ [ styles ['dark'] ] : themeId === '2' })
-				} 
-			onSubmit = {addJournalItem}>
+		<form
+			className={cn(
+				styles.JournalForm,
+				{ [styles['white']]: themeId === '1' },
+				{ [styles['dark']]: themeId === '2' }
+			)}
+			onSubmit={addJournalItem}
+		>
 			<div className={styles.titleContainer}>
-				<label htmlFor="title">
+				<label htmlFor='title'>
 					<BsBookmark className={styles.labelLogo} />
 					<span className={styles.labelText}>Название:</span>
 				</label>
@@ -78,55 +83,55 @@ const JournalForm = ({ addItem }) => {
 					// несколько классов указываются через запятую:
 					// className={cn(styles["test"], { [styles["invalid"]]: !formValidState.title })}
 					className={cn({ [styles['invalid']]: !isValid.title })}
-					type="text"
-					id="title"
-					name="title"
-					placeholder="название воспоминания..."
+					type='text'
+					id='title'
+					name='title'
+					placeholder='название воспоминания...'
 					onChange={changeValue}
 					ref={titleRef}
 					value={values.title}
 				/>
 			</div>
 			<div className={styles.dateContainer}>
-				<label htmlFor="date">
+				<label htmlFor='date'>
 					<BsCalendarDate className={styles.labelLogo} />
 					<span className={styles.labelText}>Дата:</span>
 				</label>
 				<input
 					className={cn({ [styles['invalid']]: !isValid.date })}
-					type="date"
-					id="date"
-					name="date"
+					type='date'
+					id='date'
+					name='date'
 					onChange={changeValue}
 					ref={dateRef}
 					value={values.date}
 				/>
 			</div>
 			<div className={styles.moodContainer}>
-				<label htmlFor="mood">
+				<label htmlFor='mood'>
 					<TbMoodCog className={styles.labelLogo} />
 					<span className={styles.labelText}>Настроение:</span>
 				</label>
 				<input
 					className={cn({ [styles['invalid']]: !isValid.mood })}
-					type="text"
-					id="mood"
-					name="mood"
+					type='text'
+					id='mood'
+					name='mood'
 					onChange={changeValue}
 					ref={moodRef}
 					value={values.mood}
 				/>
 			</div>
 			<div className={styles.description}>
-				<label htmlFor="description">
+				<label htmlFor='description'>
 					<BsJournalText className={styles.labelLogo} />
 					<span className={styles.labelText}>Описание:</span>
 				</label>
 				<textarea
 					className={cn({ [styles['invalid']]: !isValid.description })}
-					name="description"
-					id="description"
-					placeholder="расскажите о своём дне..."
+					name='description'
+					id='description'
+					placeholder='расскажите о своём дне...'
 					onChange={changeValue}
 					ref={descriptionRef}
 					value={values.description}

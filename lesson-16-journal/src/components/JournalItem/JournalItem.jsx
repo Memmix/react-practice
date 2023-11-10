@@ -5,16 +5,18 @@ import { ThemeContext } from '../../context/theme.context'
 
 import styles from './JournalItem.module.css'
 
-const JournalItem = ({ item }) => {
-
-	const {themeId} = useContext(ThemeContext)
+const JournalItem = ({ item, onClick }) => {
+	const { themeId } = useContext(ThemeContext)
 
 	return (
-		<div className = 
-			{cn(styles.journalItem, 
-				{ [ styles ['white'] ] : themeId==='1' }, 
-				{ [ styles ['dark'] ] : themeId==='2' })
-			}>
+		<div
+			className={cn(
+				styles.journalItem,
+				{ [styles['white']]: themeId === '1' },
+				{ [styles['dark']]: themeId === '2' }
+			)}
+			onClick={onClick}
+		>
 			<div className={styles.header}>
 				<BiMessageSquareDetail className={styles.logo} />
 				<h3>{item.title}</h3>
