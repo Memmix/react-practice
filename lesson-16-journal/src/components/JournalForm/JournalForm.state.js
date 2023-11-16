@@ -11,8 +11,10 @@ export const INITIAL_STATE = {
 		title: '',
 		date: '',
 		mood: '',
-		description: ''
+		description: '',
+		selected: false
 	},
+	moodDropDownVisibility: false,
 	isFormReadyToSubmit: false
 }
 
@@ -36,8 +38,18 @@ export function formReducer(state, action) {
 					mood: moodValidity,
 					description: descriptionValidity
 				},
-				isFormReadyToSubmit: titleValidity && dateValidity && moodValidity && descriptionValidity
+				isFormReadyToSubmit:
+					titleValidity && dateValidity && moodValidity && descriptionValidity
 			}
+		}
+
+		// появление mood img container
+		case 'SET_MOOD_DROPDOWN_VISIBILITY': {
+			return { ...state, moodDropDownVisibility: action.payload }
+		}
+		// установка mood img
+		case 'SET_MOOD': {
+			return { ...state, values: { ...state.values, mood: action.payload } }
 		}
 		// установка value
 		case 'SET_VALUE': {

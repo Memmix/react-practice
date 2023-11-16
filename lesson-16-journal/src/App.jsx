@@ -13,12 +13,24 @@ import './App.css'
 
 function App() {
 	const [arrItems, setArrItems] = useLocalStorage('data')
+	const [selectedAddButton, setSelectedAddButton] = useState(false)
 	const [selectedItem, setSelectedItem] = useState({})
 	const { themeId } = useContext(ThemeContext)
 
+	const checkMenuClick = (target) => {
+		if (target === 'addBtn') {
+			setSelectedAddButton(true)
+			setSelectedItem({})
+		}
+		if (target === 'item') {
+			setSelectedAddButton(false)
+		}
+	}
+
 	const addItem = (item) => {
-		if (!item.id) {
+		if (!item.id || selectedAddButton) {
 			setArrItems([...arrItems, { ...item, id: uuidv4() }])
+			setSelectedAddButton(false)
 		} else {
 			setArrItems([
 				...arrItems.map((el) => {
@@ -34,33 +46,49 @@ function App() {
 	}
 
 	const deleteItem = (itemId) => {
-		console.log(itemId)
-		setArrItems()
 		setArrItems([...arrItems.filter((el) => el.id !== itemId)])
 	}
 
 	const selectItem = (item) => {
-		setSelectedItem(item)
+		if (item) {
+			setSelectedItem(item)
+		} else setSelectedItem({})
 	}
 
 	return (
-		<div className={cn('app', { darkTheme: themeId === '2' }, { whiteTheme: themeId === '1' })}>
+		<div
+			className={cn(
+				'app',
+				{ darkTheme: themeId === '2' },
+				{ whiteTheme: themeId === '1' }
+			)}
+		>
 			<div className='appContainer'>
 				<div className='header'>
 					<Header />
 				</div>
 				<div className='content'>
 					<LeftPanel>
-						<JournalAddButton />
+						<JournalAddButton
+							selectedAddButton={selectedAddButton}
+							checkMenuClick={checkMenuClick}
+						/>
 						<MenuList
 							className='menuList'
 							items={arrItems}
+							checkMenuClick={checkMenuClick}
+							selectedItem={selectedItem}
 							selectItem={selectItem}
 							deleteItem={deleteItem}
 						/>
 					</LeftPanel>
 					<Body>
-						<JournalForm addItem={addItem} data={selectedItem} />
+						<JournalForm
+							selectedAddButton={selectedAddButton}
+							addItem={addItem}
+							selectedItem={selectedItem}
+							arrItems={arrItems}
+						/>
 					</Body>
 				</div>
 			</div>

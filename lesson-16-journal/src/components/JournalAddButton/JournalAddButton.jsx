@@ -1,9 +1,18 @@
-import styles from './JournalAddButton.module.css'
+import cn from 'classnames'
 import { BiMessageSquareAdd } from 'react-icons/bi'
-const JournalAddButton = () => {
+import styles from './JournalAddButton.module.css'
+
+const JournalAddButton = ({ checkMenuClick, selectedAddButton }) => {
 	return (
 		<>
-			<button className={styles.addButton}>
+			<button
+				className={cn(styles.addButton, {
+					[styles['checked']]: selectedAddButton
+				})}
+				onClick={() => {
+					checkMenuClick('addBtn')
+				}}
+			>
 				<BiMessageSquareAdd />
 				<span className={styles.text}>Новое воспоминание</span>
 			</button>
