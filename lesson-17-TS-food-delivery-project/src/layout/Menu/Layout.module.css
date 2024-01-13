@@ -1,0 +1,8 @@
+.link {
+	background: #fff;
+	color: black;
+}
+
+.active {
+	background: red;
+}
