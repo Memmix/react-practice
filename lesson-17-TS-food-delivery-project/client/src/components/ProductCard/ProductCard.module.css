@@ -1,0 +1,90 @@
+.link {
+	width: calc(25% - 15px);
+	text-decoration: none;
+}
+
+.card-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	border-radius: 20px;
+	background: #e0e0e0;
+	box-shadow: inset -5px 5px 9px #bebebe, inset 5px -5px 9px #ffffff;
+	padding: 20px;
+	color: #001f3f;
+	position: relative;
+}
+
+.card-image-container {
+	position: relative;
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+.price {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #e0e0e0;
+	border-radius: 15px;
+	z-index: 2;
+	font-size: 18px;
+	padding: 6.5px;
+	top: 10px;
+	color: rgba(0, 31, 63, 0.85);
+	left: 10px;
+}
+
+.card-image-container > img {
+	position: relative;
+	width: 250px;
+	height: 175px;
+	border-radius: 20px;
+	background: #e0e0e0;
+	box-shadow: -5px 5px 9px #bebebe, 5px -5px 9px #ffffff;
+	z-index: 1;
+	/* height: ; */
+}
+
+.text-info {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+}
+
+.title {
+	font-size: 22px;
+	margin-bottom: 5px;
+	font-weight: 600;
+}
+
+.description {
+	font-size: 15px;
+	text-align: center;
+	border-radius: 5px;
+	padding: 10px;
+	background: #e0e0e0;
+	box-shadow: -5px 5px 9px #bebebe, 5px -5px 9px #ffffff;
+}
+
+.add-to-cart-btn {
+	border: none;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #7c9bf9;
+	border-radius: 15px;
+	z-index: 2;
+	font-size: 25px;
+	color: rgba(0, 31, 63, 1);
+	padding: 10px;
+	width: 38px;
+	height: 38px;
+	bottom: -10px;
+	right: -10px;
+	cursor: pointer;
+	box-shadow: -5px 5px 9px #bebebe, 5px -5px 9px #ffffff;
+}

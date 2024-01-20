@@ -4,9 +4,10 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
 import { Layout } from './layout/Menu/Layout'
-import { Cart } from './pages/Cart'
+import { Cart } from './pages/Cart/Cart'
 import { Error } from './pages/Error'
-import { Menu } from './pages/Menu'
+import { Menu } from './pages/Menu/Menu'
+import { Product } from './pages/Product/Product'
 
 // создаем маршрутизатор
 const router = createBrowserRouter([
@@ -22,6 +23,11 @@ const router = createBrowserRouter([
 			{
 				path: '/menu', // путь к меню
 				element: <Menu /> // отображаем Menu
+			},
+			// параметрический роут
+			{
+				path: '/product/:id',
+				element: <Product />
 			}
 		]
 	},
