@@ -1,14 +1,26 @@
 import cn from 'classnames' // импорт утилиты для работы с классами
-import { NavLink, Outlet } from 'react-router-dom' // импорт компонентов ссылки и отображения вложенных роутов
+import { NavLink, Outlet, useNavigate } from 'react-router-dom' // импорт компонентов ссылки и отображения вложенных роутов
 import Button from '../../components/Button/Button'
-import styles from './Layout.module.css' // импорт стилей из CSS модуля
+import styles from './MenuLayout.module.css' // импорт стилей из CSS модуля
 
-export function Layout() {
+export function MenuLayout() {
+	const navigate = useNavigate()
+
+	const logout = () => {
+		// Cookies.remove('access_token')
+		localStorage.removeItem('access_token')
+		navigate('/auth/login')
+	}
+
 	return (
 		<div className={cn(styles['layout'])}>
 			<div className={cn(styles['menu'])}>
 				<div className={cn(styles['user'])}>
-					<img className={cn(styles['avatar'])} src='homer.jpg' alt='avatar' />
+					<img
+						className={cn(styles['avatar'])}
+						src='./avatar.jpg'
+						alt='avatar'
+					/>
 					<div className={cn(styles['name-and-email'])}>
 						<p className={cn(styles['name'])}>Homer Simpson</p>
 						<p className={cn(styles['email'])}>homer.simpson@gmail.com</p>
@@ -32,7 +44,9 @@ export function Layout() {
 					>
 						Cart
 					</NavLink>
-					<Button className={cn(styles['logout'])}>Logout</Button>
+					<Button className={cn(styles['logout'])} onClick={() => logout()}>
+						Logout
+					</Button>
 				</div>
 			</div>
 
