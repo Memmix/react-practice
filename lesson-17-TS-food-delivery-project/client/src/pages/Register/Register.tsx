@@ -1,47 +1,50 @@
-import axios, { AxiosError } from 'axios'
 import cn from 'classnames'
-import { FormEvent, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { FormEvent, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { NavLink, useNavigate } from 'react-router-dom'
 import Button from '../../components/Button/Button'
 import Heading from '../../components/Heading/Heading'
 import Input from '../../components/Input/Input'
-import { PREFIX } from '../../helpers/API'
+import { AppDispatch, RootState } from '../../store/store'
+import { register, userActions } from '../../store/user.slice'
 import styles from './Register.module.css'
 
 export type RegisterForm = {
 	email: { value: string }
 	password: { value: string }
+	// потом добавить и типизировать недостающие поля
 }
 
 export function Register() {
-	const [error, setError] = useState<string | undefined>()
+	const navigate = useNavigate()
+	const dispatch = useDispatch<AppDispatch>()
+	const regiserSuccess = useSelector(
+		(state: RootState) => state.user.registerSuccess
+	)
+	const registerErrorMessage = useSelector(
+		(state: RootState) => state.user.registerErrorMessage
+	)
+
+	useEffect(() => {
+		if (regiserSuccess) {
+			navigate('/auth/login')
+		}
+	}, [regiserSuccess, navigate])
 
 	const submit = async (e: FormEvent) => {
 		e.preventDefault()
+		dispatch(userActions.clearRegisterError())
 		const target = e.target as typeof e.target & RegisterForm
 		const { email, password } = target
-		console.log(email.value, password.value)
-		await sendRegister(email.value, password.value)
-	}
-
-	const sendRegister = async (email: string, password: string) => {
-		try {
-			const { data } = await axios.post(`${PREFIX}/auth/register`, {
-				email,
-				password
-			})
-			console.log(data)
-		} catch (err) {
-			if (err instanceof AxiosError) {
-				setError(err.response?.data.message)
-			}
-		}
+		dispatch(register({ email: email.value, password: password.value }))
 	}
 
 	return (
 		<>
 			<Heading className={cn(styles['heading'])}>Register</Heading>
-			{error && <p className={cn(styles['error'])}>{error}</p>}
+			{registerErrorMessage && (
+				<p className={cn(styles['error'])}>{registerErrorMessage}</p>
+			)}
 			<form className={cn(styles['register-form'])} onSubmit={submit}>
 				<div className={cn(styles['register-container'])}>
 					<p className={cn(styles['text'])}>Your E-mail:</p>

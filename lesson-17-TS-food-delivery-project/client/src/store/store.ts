@@ -5,7 +5,7 @@ import userSlice from './user.slice'
 // создаём корневой store, к которому будут добавлены отдельный кусочки(slice)
 // конфигурируем его. В нём будут все наши reducer's
 // reducer - функция, которая будет изменять состояния
-// внутри и хранятся различные слайсы
+// внутри хранятся различные слайсы
 export const store = configureStore({
 	reducer: {
 		user: userSlice
@@ -20,6 +20,7 @@ export const store = configureStore({
 
 // когда у нас меняется jwt токен мы должны его синхронизировать с localstorage:
 store.subscribe(() => {
+	// saveState(store.getState().user.access_token, 'userData') // если бы там была просто строка
 	saveState({ access_token: store.getState().user.access_token }, 'userData')
 })
 

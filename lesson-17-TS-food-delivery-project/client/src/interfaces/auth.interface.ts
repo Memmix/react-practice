@@ -3,4 +3,5 @@ export interface ILoginResponse {
 	success: boolean
 	message: string
 	access_token: string
+	email: string
 }

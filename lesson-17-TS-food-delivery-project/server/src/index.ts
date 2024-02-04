@@ -38,7 +38,7 @@ async function start() {
 	app.post('/auth/register', async (req: Request, res: Response) => {
 		try {
 			// получаем данные из тела запроса + деструктурируем их
-			const { login, email, password } = req.body
+			const { email, password } = req.body
 			// проверяем есть ли такой email в БД
 			const isEmailAllreadyExist = await User.findOne({ email })
 			// если есть, то возвращаем соответствующий ответ от сервера с кодом 400
@@ -55,7 +55,7 @@ async function start() {
 			bcrypt.hash(password, 10, async (err, hash) => {
 				if (err) throw err
 				// сохраняем в БД
-				const newUser = await User.create({ login, email, password: hash })
+				const newUser = await User.create({ email, password: hash })
 				// отправляем ответ от сервера с кодом 200 и данными пользователя
 				res.status(200).json({
 					status: 201,
@@ -67,7 +67,7 @@ async function start() {
 		} catch (err) {
 			console.error(err)
 			// Отправляем сообщение с ошибкой пользователю
-			res.json({
+			res.status(400).json({
 				status: 400,
 				message:
 					err instanceof Error
@@ -80,37 +80,27 @@ async function start() {
 	// login
 	app.post('/auth/login', async (req: Request, res: Response) => {
 		try {
-			// получаем данные из тела запроса
 			const { email, password } = req.body
-			// проверяем есть ли пользователь с таким email в БД
 			const user = await User.findOne({ email })
-			// если пользователь есть:
+
 			if (user) {
-				// нужно проверить валидный ли пароль введён
 				const isPasswordMatched = await bcrypt.compare(password, user.password)
-				// если не совпадают - сообщим пользователю об этом
+
 				if (!isPasswordMatched) {
-					res.json({
+					return res.status(400).json({
 						status: 400,
 						success: false,
-						message: 'Incorrect password'
+						message: 'Неверный пароль'
 					})
-					return
 				}
-			}
-			// если такого пользователя нет, то возвращаем соответствующий ответ от сервера с кодом 404
-			else {
-				res.json({
+			} else {
+				return res.status(404).json({
 					status: 404,
 					success: false,
-					message: 'User not found'
+					message: 'Пользователь не найден'
 				})
-				return
 			}
-			// если пользователь найден, а пароль валиден, то генерируем jwt-token
-			// payload - это данные, которые будут внутри jwt-токена
-			// secret key - это ключ, который будет использоваться для шифрования и дешифрования (в .env)
-			// expiration - это время жизни токена и выбранный алгоритм
+
 			const access_token = jwt.sign(
 				{ id: user._id, email: user.email },
 				process.env.JWT_SECRET_KEY as string,
@@ -119,29 +109,20 @@ async function start() {
 				}
 			)
 
-			//? вариант использования
-			// 1. отправляем куки с токеном на клиент
-			// res.cookie('access_token', access_token, {
-			// 	httpOnly: true,
-			// 	secure: false, // true if https
-			// 	sameSite: 'none' // 'none' для кросс-доменных куки
-			// })
-
-			// 2. отправляем пользователю ответ от сервера со всей инфой, включая токен:
 			res.json({
 				status: 200,
 				success: true,
-				message: 'User logged in',
+				message: 'Пользователь вошел в систему',
 				access_token
 			})
 		} catch (err) {
-			res.json({
+			res.status(400).json({
 				status: 400,
 				success: false,
 				message:
 					err instanceof Error
 						? err.message.toString()
-						: 'Something went wrong on server'
+						: 'Что-то пошло не так на сервере'
 			})
 		}
 	})
@@ -164,6 +145,42 @@ async function start() {
 			res.send(data)
 		} catch (err) {
 			console.error(err)
+		}
+	})
+
+	// get profile with bearer accesstoken
+	app.get('/getProfile', async (req: Request, res: Response) => {
+		interface Idecoded {
+			id: string
+			email: string
+		}
+
+		try {
+			// убираем Bearer
+			const token = req.headers.authorization?.split(' ')[1]
+			if (token) {
+				const decoded = jwt.verify(
+					token,
+					process.env.JWT_SECRET_KEY as string
+				) as Idecoded // Уточнение типа
+
+				const user = await User.findOne({ _id: decoded.id }) // Поиск по _id
+
+				if (user) {
+					res.send(user)
+				} else {
+					res.status(404).send({
+						status: 404,
+						message: 'User not found'
+					})
+				}
+			}
+		} catch (err) {
+			console.error(err)
+			res.status(400).send({
+				status: 400,
+				message: 'Invalid token'
+			})
 		}
 	})
 

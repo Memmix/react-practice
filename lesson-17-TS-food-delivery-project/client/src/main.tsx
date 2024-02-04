@@ -31,6 +31,7 @@ const router = createBrowserRouter([
 	{
 		path: '/', // базовый роут
 		element: (
+			// реализация приватного роута, оборачиванием MenuLayout в RequireAuth
 			<RequireAuth>
 				<MenuLayout />
 			</RequireAuth>
