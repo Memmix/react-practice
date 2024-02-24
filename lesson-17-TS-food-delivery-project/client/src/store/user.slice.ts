@@ -51,7 +51,7 @@ export const register = createAsyncThunk(
 				email: params.email,
 				password: params.password
 			})
-			console.log(data)
+
 			return data
 		} catch (err) {
 			if (err instanceof AxiosError) {
@@ -103,6 +103,9 @@ export const userSlice = createSlice({
 		},
 		clearRegisterError: state => {
 			state.registerErrorMessage = undefined
+		},
+		clearRegisterSuccess: state => {
+			state.registerSuccess = false
 		}
 	},
 	extraReducers: builder => {
@@ -115,7 +118,6 @@ export const userSlice = createSlice({
 		})
 		//* обработка rejected промиса login
 		builder.addCase(login.rejected, (state, action) => {
-			console.log(action)
 			state.loginErrorMessage = action.error.message
 		})
 		//* обработка fulfilled состояния промиса register
@@ -124,10 +126,10 @@ export const userSlice = createSlice({
 				return
 			}
 			state.registerSuccess = true
+			state.loginErrorMessage = undefined
 		})
 		//* обработка rejected промиса register
 		builder.addCase(register.rejected, (state, action) => {
-			console.log(action)
 			state.registerErrorMessage = action.error.message
 		})
 		//* работа с profile

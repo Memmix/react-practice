@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import cn from 'classnames'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { LuSearch } from 'react-icons/lu'
 import Heading from '../../components/Heading/Heading'
 import ProductCard from '../../components/ProductCard/ProductCard'
@@ -13,13 +13,19 @@ export function Menu() {
 	const [products, setProducts] = useState<IProduct[]>([])
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [error, setError] = useState<string | undefined>()
+	const [filter, setFilter] = useState<string>('')
+
+	const search = (e: ChangeEvent<HTMLInputElement>) => {
+		setFilter(e.target.value)
+	}
+
+	useEffect(() => {
+		getMenu()
+	}, [])
 
 	const getMenu = async () => {
 		try {
 			setIsLoading(true)
-			// имитация загрузки 1.5 сек
-			await new Promise(resolve => setTimeout(resolve, 1500))
-			// опечатка в url для проверки ошибки
 			const { data } = await axios.get(`${PREFIX}/products`, {
 				withCredentials: true
 			})
@@ -34,17 +40,18 @@ export function Menu() {
 		}
 	}
 
-	useEffect(() => {
-		getMenu()
-	}, [])
-
 	return (
 		<>
 			<div className={cn(styles['header'])}>
 				<Heading>Menu</Heading>
 				<div className={cn(styles['search-container'])}>
 					<LuSearch className={cn(styles['search-icon'])} />
-					<Search placeholder='type to search...' />
+					<Search
+						placeholder='type to search...'
+						onChange={e => {
+							search(e)
+						}}
+					/>
 				</div>
 			</div>
 
@@ -57,20 +64,23 @@ export function Menu() {
 					</>
 				)}
 				{!isLoading &&
-					products.map(product => (
-						<ProductCard
-							key={product._id}
-							id={product._id}
-							title={product.title}
-							price={product.price}
-							description={
-								product.description.length > 54
-									? product.description.slice(0, 54) + '...'
-									: product.description
-							}
-							image={product.image}
-						/>
-					))}
+					products.map(
+						product =>
+							product.title.toLowerCase().includes(filter.toLowerCase()) && (
+								<ProductCard
+									key={product._id}
+									id={product._id}
+									title={product.title}
+									price={product.price}
+									description={
+										product.description.length > 44
+											? product.description.slice(0, 44) + '...'
+											: product.description
+									}
+									image={product.image}
+								/>
+							)
+					)}
 				{/* прелодер */}
 				{isLoading && <>loading products...</>}
 			</div>

@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom' // импорт компонентов ссылки и отображения вложенных роутов
 import Button from '../../components/Button/Button'
+import { getCartFromDB } from '../../store/cart.slice'
 import { AppDispatch, RootState } from '../../store/store'
 import { getProfile, userActions } from '../../store/user.slice'
 import styles from './MenuLayout.module.css' // импорт стилей из CSS модуля
@@ -11,11 +12,15 @@ export function MenuLayout() {
 	const navigate = useNavigate()
 	const dispatch = useDispatch<AppDispatch>()
 	const profile = useSelector((state: RootState) => state.user.profile)
+	const products = useSelector((state: RootState) => state.cart.products)
 
 	useEffect(() => {
 		dispatch(getProfile())
-		// благодаря этой зависимости, state profile автоматически очищается
 	}, [dispatch])
+
+	useEffect(() => {
+		if (profile?._id) dispatch(getCartFromDB(profile._id))
+	}, [dispatch, profile])
 
 	const logout = () => {
 		// Cookies.remove('access_token')
@@ -54,7 +59,11 @@ export function MenuLayout() {
 							{ isActive } // динамически устанавливаем классы в зависимости от активности NavLink
 						) => cn(styles['link'], { [styles.active]: isActive })}
 					>
-						Cart
+						Cart (
+						{Array.isArray(products)
+							? products.reduce((acc, el) => acc + el.count, 0)
+							: 0}
+						)
 					</NavLink>
 					<Button className={cn(styles['logout'])} onClick={() => logout()}>
 						Logout

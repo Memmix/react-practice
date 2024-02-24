@@ -1,5 +1,5 @@
 export interface IProfile {
-	id: 'string'
+	_id: string
 	email: string
 	// в последсвтии реализовать name, address, phone в регистрации
 	name?: string

@@ -18,25 +18,28 @@ export type RegisterForm = {
 export function Register() {
 	const navigate = useNavigate()
 	const dispatch = useDispatch<AppDispatch>()
-	const regiserSuccess = useSelector(
-		(state: RootState) => state.user.registerSuccess
-	)
+
 	const registerErrorMessage = useSelector(
 		(state: RootState) => state.user.registerErrorMessage
 	)
 
+	const registerSuccess = useSelector(
+		(state: RootState) => state.user.registerSuccess
+	)
+
 	useEffect(() => {
-		if (regiserSuccess) {
+		if (registerSuccess) {
+			dispatch(userActions.clearRegisterSuccess())
 			navigate('/auth/login')
 		}
-	}, [regiserSuccess, navigate])
+	}, [dispatch, navigate, registerSuccess])
 
 	const submit = async (e: FormEvent) => {
 		e.preventDefault()
 		dispatch(userActions.clearRegisterError())
 		const target = e.target as typeof e.target & RegisterForm
 		const { email, password } = target
-		dispatch(register({ email: email.value, password: password.value }))
+		await dispatch(register({ email: email.value, password: password.value }))
 	}
 
 	return (

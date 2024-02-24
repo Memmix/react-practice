@@ -9,3 +9,99 @@
 	align-items: center;
 	height: 92px;
 }
+
+.cart-container {
+	display: flex;
+	gap: 20px;
+	color: #001f3f;
+}
+
+.products-container {
+	display: flex;
+	flex-direction: column;
+	width: 55%;
+	gap: 10px;
+}
+
+.order-container {
+	width: 45%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-radius: 10px;
+	max-height: 305px;
+	padding: 20px;
+	background: #e0e0e0;
+	box-shadow: inset -5px 5px 9px #bebebe, inset 5px -5px 9px #ffffff;
+}
+
+.food-price,
+.delivery-price,
+.total-price {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	font-size: 1.4em;
+	padding: 3.5px 0;
+	border-bottom: 1.5px solid #cacaca;
+}
+
+.order-data {
+	color: #001f3fca;
+}
+
+.promocode-container {
+	width: 70%;
+	border: none;
+	border-radius: 10px;
+	background: #e0e0e0;
+	box-shadow: -5px 5px 9px #bebebe, 5px -5px 9px #ffffff;
+	outline: none;
+	font-size: 22px;
+	color: #001f3f;
+	margin-top: 20px;
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.promocode-container > input {
+	font-size: 0.85em;
+	border: none;
+	outline: none;
+	padding: 5px;
+	background: transparent;
+	width: 85%;
+}
+
+.promocode-container > button {
+	font-size: 1.35em;
+	cursor: pointer;
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	border-radius: 50%;
+	height: 40px;
+	background: #41d203d2;
+	color: #001f3f;
+}
+
+.send-btn {
+	font-size: 1.55em;
+	cursor: pointer;
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	/* width: 40%; */
+	border-radius: 10px;
+	/* height: 40px; */
+	background: #7c9bf9;
+	box-shadow: -5px 5px 9px #bebebe, 5px -5px 9px #ffffff;
+	color: #001f3f;
+	margin-top: 20px;
+	padding: 15px 40px;
+}

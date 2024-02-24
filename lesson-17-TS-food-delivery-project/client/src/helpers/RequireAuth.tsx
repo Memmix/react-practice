@@ -14,7 +14,6 @@ export const RequireAuth = ({ children }: { children: ReactNode }) => {
 
 	//! в дальнейшем его нужно будет провалидировать, а не просто посмотреть, что он есть
 	if (!jwt) {
-		// replace-заменяет текущий путь
 		return <Navigate to='/auth/login' replace />
 	}
 	//

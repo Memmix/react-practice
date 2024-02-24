@@ -19,18 +19,24 @@ export function Login() {
 	// useDispatch - обеспечивает возможность делать dispatch на всю функцию
 	// передавая сюда AppDispatch type мы теперь имеем возможность выполнять dispatch для нашего store
 	const dispatch = useDispatch<AppDispatch>()
-	const access_token = useSelector(
-		(state: RootState) => state.user.access_token
-	)
-	const loginError = useSelector(
-		(state: RootState) => state.user.loginErrorMessage
-	)
+
+	const access_token = useSelector((state: RootState) => {
+		return state.user.access_token
+	})
+
+	const loginError = useSelector((state: RootState) => {
+		return state.user.loginErrorMessage
+	})
+
+	const userId = useSelector((state: RootState) => {
+		return state.user.profile?._id
+	})
 
 	useEffect(() => {
 		if (access_token) {
 			navigate('/')
 		}
-	}, [access_token, navigate])
+	}, [access_token, dispatch, navigate, userId])
 
 	const submit = async (e: FormEvent) => {
 		e.preventDefault()
@@ -41,39 +47,8 @@ export function Login() {
 	}
 
 	const sendLogin = async (email: string, password: string) => {
-		// использования redux для авторизации
-		dispatch(login({ email, password }))
-
-		// try {
-		// 	const { data } = await axios.post<ILoginResponse>(
-		// 		`${PREFIX}/auth/login`,
-		// 		{
-		// 			email,
-		// 			password
-		// 		}
-		// 	)
-		// 	// ? варианты хранения токена
-		// 	// 1. Сохраняем токен в куки
-		// 	// const tokenData = {
-		// 	// 	access_token: data.access_token,
-		// 	// 	expires_in: 60 * 60 // время жизни 1час - 3600сек
-		// 	// }
-		// 	// Cookies.set('access_token', JSON.stringify(tokenData), {
-		// 	// 	expires: tokenData.expires_in
-		// 	// })
-		// 	// 2. Сохраняем токен в localstorage
-		// 	// localStorage.setItem('access_token', data.access_token)
-		// 	// 3. Сохраняем токен в store Redux
-		// 	dispatch(userActions.addToken(data.access_token))
-		// 	// редирект после успешного логина
-		// 	if (data.access_token) {
-		// 		navigate('/')
-		// 	}
-		// } catch (err) {
-		// 	if (err instanceof AxiosError) {
-		// 		setError(err.response?.data.message)
-		// 	}
-		// }
+		const test = await dispatch(login({ email, password }))
+		console.log(test)
 	}
 
 	return (

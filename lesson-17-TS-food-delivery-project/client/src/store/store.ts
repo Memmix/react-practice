@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { saveState } from './storage'
 import userSlice from './user.slice'
+import cartSlice from './cart.slice'
 
 // создаём корневой store, к которому будут добавлены отдельный кусочки(slice)
 // конфигурируем его. В нём будут все наши reducer's
@@ -8,7 +9,8 @@ import userSlice from './user.slice'
 // внутри хранятся различные слайсы
 export const store = configureStore({
 	reducer: {
-		user: userSlice
+		user: userSlice,
+		cart: cartSlice
 	}
 })
 
