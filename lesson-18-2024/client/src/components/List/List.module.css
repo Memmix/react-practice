@@ -1,0 +1,28 @@
+.container {
+	padding: 20px;
+	width: 250px;
+	height: 250px;
+	text-align: center;
+	overflow-y: auto;
+}
+
+.item:hover {
+	background: gray;
+	cursor: pointer;
+}
+
+.red {
+	background: red;
+}
+
+.orange {
+	background: orange;
+}
+
+.aqua {
+	background: aqua;
+}
+
+.lime {
+	background: lime;
+}

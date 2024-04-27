@@ -1,0 +1,21 @@
+h1 {
+	color: #fff;
+}
+
+.container {
+	width: 1200px;
+	height: 400px;
+	background: lightcoral;
+	border: 4px solid lime;
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+}
+
+.list-container,
+.button-container {
+	display: flex;
+	gap: 10px;
+}
