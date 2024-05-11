@@ -11,7 +11,7 @@ function Register() {
 		console.log(result)
 	}
 
-	const showPassword = () => {
+	const togglePassword = () => {
 		setPasswordType(prev => {
 			if (prev === 'password') return 'text'
 			else return 'password'
@@ -39,7 +39,7 @@ function Register() {
 					setPassword(e.target.value)
 				}}
 			/>
-			<button onClick={() => showPassword()}>eye</button>
+			<button onClick={() => togglePassword()}>eye</button>
 			<button onClick={() => registerUser({ username, password })}>
 				Register
 			</button>
