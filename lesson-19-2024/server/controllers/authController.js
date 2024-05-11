@@ -36,7 +36,7 @@ const login = async (req, res) => {
 		return res.status(400).send({ message: 'Invalid username or password' })
 	}
 
-	res.send({ message: 'Login successful!' })
+	res.send({ user, message: 'Login successful!' })
 }
 
 module.exports = {

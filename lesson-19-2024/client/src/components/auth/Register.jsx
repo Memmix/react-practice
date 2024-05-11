@@ -4,10 +4,18 @@ import register from '../../utils/register'
 function Register() {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
+	const [passwordType, setPasswordType] = useState('password')
 
 	const registerUser = async data => {
 		const result = await register(data)
 		console.log(result)
+	}
+
+	const showPassword = () => {
+		setPasswordType(prev => {
+			if (prev === 'password') return 'text'
+			else return 'password'
+		})
 	}
 
 	return (
@@ -23,7 +31,7 @@ function Register() {
 				}}
 			/>
 			<input
-				type='password'
+				type={passwordType}
 				placeholder='password'
 				value={password}
 				onChange={e => {
@@ -31,6 +39,7 @@ function Register() {
 					setPassword(e.target.value)
 				}}
 			/>
+			<button onClick={() => showPassword()}>eye</button>
 			<button onClick={() => registerUser({ username, password })}>
 				Register
 			</button>
